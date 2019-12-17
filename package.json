@@ -1,16 +1,23 @@
 {
   "name": "@accessible/radio",
   "version": "1.0.0",
-  "homepage": "https://github.com/accessible-ui/accessible#readme",
-  "repository": "github:accessible-ui/accessible",
-  "bugs": "https://github.com/accessible-ui/accessible/issues",
-  "author": "Jared Lunde <jared@BeStellar.co> (https://jaredLunde.com)",
+  "homepage": "https://github.com/accessible-ui/radio#readme",
+  "repository": "github:accessible-ui/radio",
+  "bugs": "https://github.com/accessible-ui/radio/issues",
+  "author": "Jared Lunde <jared.lunde@gmail.com> (https://jaredLunde.com)",
   "license": "MIT",
-  "description": "",
+  "description": "An accessible and versatile radio component for React",
   "keywords": [
     "react",
     "react component",
-    "radio"
+    "radio",
+    "accessible radio",
+    "aria radio",
+    "a11y radio",
+    "accessible radio",
+    "radio component",
+    "react radio component",
+    "react radio"
   ],
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
@@ -74,7 +81,9 @@
     "ts-jest": "latest",
     "typescript": "latest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@accessible/checkbox": "^1.0.5"
+  },
   "peerDependencies": {
     "prop-types": ">=15.6",
     "react": ">=16.8",

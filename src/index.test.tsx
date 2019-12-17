@@ -1,9 +1,11 @@
 /* jest */
-// import React from 'react'
-// import {renderHook} from '@testing-library/react-hooks'
-// import {render} from '@testing-library/react'
-const hello = world => `hello ${world}`
+import * as React from 'react'
+import {render} from '@testing-library/react'
+import {Radio} from './index'
 
-test('passes', () => {
-  expect(hello('world')).toMatchSnapshot()
+describe('<Radio>', () => {
+  it('should render as a radio button', () => {
+    const result = render(<Radio name="me" value="foo" />)
+    expect(result.asFragment()).toMatchSnapshot('type=radio')
+  })
 })
