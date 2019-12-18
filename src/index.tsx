@@ -109,7 +109,6 @@ export const Radio = forwardRef<JSX.Element | React.ReactElement, RadioProps>(
         <VisuallyHidden>
           <input
             type="radio"
-            ref={ref}
             onChange={e => {
               onChange?.(e)
               setValue(value)
@@ -122,8 +121,10 @@ export const Radio = forwardRef<JSX.Element | React.ReactElement, RadioProps>(
               onBlur?.(e)
               setFocused(false)
             }}
+            ref={ref}
             {...props}
             name={name}
+            value={value}
             checked={checked}
             defaultChecked={void 0}
           />
@@ -151,16 +152,16 @@ export interface CheckedProps {
   children: React.ReactNode
 }
 
+// @ts-ignore
 export const Checked: React.FC<CheckedProps> = ({children}) =>
-  // @ts-ignore
   useChecked() ? children : null
 
 export interface UncheckedProps {
   children: React.ReactNode
 }
 
+// @ts-ignore
 export const Unchecked: React.FC<UncheckedProps> = ({children}) =>
-  // @ts-ignore
   !useChecked() ? children : null
 
 export interface MarkProps {
@@ -195,4 +196,7 @@ export const Mark: React.FC<MarkProps> = ({
 if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production') {
   RadioGroup.displayName = 'RadioGroup'
   Radio.displayName = 'Radio'
+  Mark.displayName = 'Mark'
+  Checked.displayName = 'Checked'
+  Unchecked.displayName = 'Unchecked'
 }

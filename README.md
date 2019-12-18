@@ -38,7 +38,7 @@ focus and update a radio input with the keyboard.
 [Check out the example on CodeSandbox](https://codesandbox.io/s/accessibleradio-examples-olksf)
 
 ```jsx harmony
-import {Radio, Mark} from '@accessible/radio'
+import {RadioGroup, Radio, Mark} from '@accessible/radio'
 
 const MyRadio = () => (
   <RadioGroup name="favorite_food" defaultValue="pizza">
