@@ -4,7 +4,6 @@ exports[`<Radio> should render as a radio button: type=radio 1`] = `
 <DocumentFragment>
   <input
     id="checkbox--1"
-    name="me"
     style="border: 0px; height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; position: absolute;"
     type="radio"
     value="foo"

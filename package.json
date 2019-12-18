@@ -82,7 +82,8 @@
     "typescript": "latest"
   },
   "dependencies": {
-    "@accessible/checkbox": "^1.0.5"
+    "@accessible/visually-hidden": "^1.0.5",
+    "clsx": "^1.0.4"
   },
   "peerDependencies": {
     "prop-types": ">=15.6",
