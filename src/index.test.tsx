@@ -72,7 +72,7 @@ describe('<Radio>', () => {
     let cxt
 
     render(
-      <Radio value='foo'>
+      <Radio value="foo">
         {context => {
           cxt = context
           return <div />

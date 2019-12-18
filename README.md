@@ -86,6 +86,29 @@ controlled values and default values for the radio group.
 | onChange     | <code>(value: string &#0124; number &#0124; string[] &#0124; undefined) => any</code>            | `undefined` | No        | This callback fires each time the checked value changes                                                                                                                                                                          |
 | children     | <code>React.ReactNode &#0124; React.ReactNode[] &#0124; JSX.Element[] &#0124; JSX.Element</code> |
 
+### `useRadioGroup()`
+
+A React hook that returns the [`RadioGroupContextValue`](#radiogroupcontextvalue) for the nearest `<RadioGroup>` parent.
+
+### `RadioGroupContextValue`
+
+```typescript
+interface RadioGroupContextValue {
+  name: string
+  value: string | number | string[] | undefined
+  setValue: (
+    value:
+      | string
+      | number
+      | string[]
+      | undefined
+      | ((
+          current: string | number | string[] | undefined
+        ) => string | number | string[] | undefined)
+  ) => void
+}
+```
+
 ### `<Radio>`
 
 Creates a visually hidden radio input that is focusable and accessible via keyboard navigation.
@@ -101,7 +124,7 @@ deep in the tree.
 
 ### `<Mark>`
 
-A convenient component for conditionally adding class names and styles when the component is checked/unchecked.
+A convenient component for conditionally adding class names and styles when the `<Radio>` component is checked/unchecked. It must be a child of a `<Radio>`.
 
 #### Props
 
@@ -115,8 +138,8 @@ A convenient component for conditionally adding class names and styles when the 
 
 ### `<Checked>`
 
-The child of this component will only render when the radio is in
-a `checked` state.
+The child of this component will only render when the `<Radio>` is in
+a `checked` state. It must be a child of a `<Radio>`.
 
 #### Props
 
@@ -126,8 +149,8 @@ a `checked` state.
 
 ### `<Unchecked>`
 
-The child of this component will only render when the radio is in
-an `unchecked` state.
+The child of this component will only render when the `<Radio>` is in
+an `unchecked` state. It must be a child of a `<Radio>`.
 
 #### Props
 
@@ -137,7 +160,7 @@ an `unchecked` state.
 
 ### `useRadio()`
 
-A React hook that returns the [`RadioContextValue`](#radiocontextvalue)
+A React hook that returns the [`RadioContextValue`](#radiocontextvalue) for the nearest `<Radio>` parent.
 
 ### `RadioContextValue`
 
@@ -156,15 +179,15 @@ interface RadioContextValue {
 
 ### `useChecked()`
 
-Returns `true` when the radio is checked, otherwise `false`
+Returns `true` when the `<Radio>` is checked, otherwise `false`
 
 ### `useFocused()`
 
-Returns `true` when the radio is focused, otherwise `false`
+Returns `true` when the `<Radio>` is focused, otherwise `false`
 
 ### `useControls()`
 
-This hook provides access to the checkbox's `check` and `uncheck` functions
+This hook provides access to the `<Radio>`'s `check` and `uncheck` functions
 
 #### Example
 
