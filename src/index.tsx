@@ -104,6 +104,8 @@ export const Radio = forwardRef<JSX.Element | React.ReactElement, RadioProps>(
       }),
       [checked, focused]
     )
+    // @ts-ignore
+    children = typeof children === 'function' ? children(context) : children
     return (
       <RadioContext.Provider value={context}>
         <VisuallyHidden>

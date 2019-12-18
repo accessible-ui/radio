@@ -202,6 +202,15 @@ exports[`<Mark> should have \`unchecked\` class name when unchecked: a=unchecked
 </DocumentFragment>
 `;
 
+exports[`<Radio> should provide context to function child 1`] = `
+Object {
+  "check": [Function],
+  "checked": false,
+  "focused": false,
+  "uncheck": [Function],
+}
+`;
+
 exports[`<Radio> should render as a radio button: type=radio, value=foo, no name 1`] = `
 <DocumentFragment>
   <input

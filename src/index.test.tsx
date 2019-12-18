@@ -67,6 +67,21 @@ describe('<Radio>', () => {
     fireEvent.blur(result.getByTestId('a'))
     expect(mockOnBlur).toBeCalled()
   })
+
+  it('should provide context to function child', () => {
+    let cxt
+
+    render(
+      <Radio value='foo'>
+        {context => {
+          cxt = context
+          return <div />
+        }}
+      </Radio>
+    )
+
+    expect(cxt).toMatchSnapshot()
+  })
 })
 
 describe('<RadioGroup>', () => {
