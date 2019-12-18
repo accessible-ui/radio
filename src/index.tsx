@@ -6,8 +6,8 @@ import React, {
   useContext,
   useMemo,
 } from 'react'
-import clsx from 'clsx'
 import VisuallyHidden from '@accessible/visually-hidden'
+import clsx from 'clsx'
 
 export interface RadioGroupContextValue {
   name: string

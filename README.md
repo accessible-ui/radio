@@ -44,7 +44,7 @@ const MyRadio = () => (
   <RadioGroup name="favorite_food" defaultValue="pizza">
     <h2>What is your favorite food?</h2>
 
-    <label className="my-radio">
+    <label>
       <Radio value="pizza">
         <span className="my-radio">
           <Mark checkedClass="checked" uncheckedClass="unchecked">
@@ -55,7 +55,7 @@ const MyRadio = () => (
       Pizza
     </label>
 
-    <label className="my-radio">
+    <label>
       <Radio value="tacos">
         <span className="my-radio">
           <Mark checkedClass="checked" uncheckedClass="unchecked">
