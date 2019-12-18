@@ -1,7 +1,7 @@
 <hr>
 <div align="center">
   <h1 align="center">
-    @accessible/radio
+    &lt;Radio&gt;
   </h1>
 </div>
 
@@ -71,7 +71,7 @@ const MyRadio = () => (
 
 ## API
 
-### `<RadioGroup`
+### `<RadioGroup>`
 
 Creates context that controls the child [`<Radio>`](#radio) components. This is also where you set
 controlled values and default values for the radio group.
