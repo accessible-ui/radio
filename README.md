@@ -98,7 +98,7 @@ interface RadioGroupContextValue {
   value: string | number | string[] | undefined
   setValue: (
     value:
-      | string
+      | string``
       | number
       | string[]
       | undefined

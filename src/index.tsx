@@ -4,6 +4,7 @@ import React, {
   useState,
   useEffect,
   useContext,
+  useRef,
   useMemo,
 } from 'react'
 import VisuallyHidden from '@accessible/visually-hidden'
@@ -54,9 +55,11 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
     name,
     nextValue,
   ])
+  const prevChecked = useRef(nextValue)
 
   useEffect(() => {
-    onChange?.(nextValue)
+    prevChecked.current !== nextValue && onChange?.(nextValue)
+    prevChecked.current = nextValue
   }, [nextValue])
 
   return <RadioGroupContext.Provider value={context} children={children} />
