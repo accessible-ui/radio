@@ -206,6 +206,7 @@ exports[`<Radio> should provide context to function child 1`] = `
 Object {
   "check": [Function],
   "checked": false,
+  "disabled": false,
   "focused": false,
   "uncheck": [Function],
 }

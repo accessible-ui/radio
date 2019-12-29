@@ -70,6 +70,7 @@ export interface RadioContextValue {
   check: () => void
   uncheck: () => void
   focused: boolean
+  disabled: boolean
 }
 
 export interface RadioProps {
@@ -77,6 +78,7 @@ export interface RadioProps {
   checked?: never
   defaultChecked?: never
   value: string | number | string[] | undefined
+  disabled?: boolean
   onChange?: (event: React.ChangeEvent) => any
   onFocus?: (event: React.FocusEvent) => any
   onBlur?: (event: React.FocusEvent) => any
@@ -88,24 +90,26 @@ export interface RadioProps {
 }
 
 export const Radio = forwardRef<JSX.Element | React.ReactElement, RadioProps>(
-  ({value, onChange, onFocus, onBlur, children, ...props}, ref: any) => {
+  (
+    {value, disabled = false, onChange, onFocus, onBlur, children, ...props},
+    ref: any
+  ) => {
     const {name, value: checkedValue, setValue} = useRadioGroup()
     const [focused, setFocused] = useState<boolean>(false)
     const checked = value === checkedValue
     const context = useMemo(
       () => ({
         checked,
-        check: () => {
-          setValue(value)
-        },
-        uncheck: () => {
+        check: () => !disabled && setValue(value),
+        uncheck: () =>
+          !disabled &&
           setValue((current: string | number | string[] | undefined) =>
             current === value ? void 0 : current
-          )
-        },
+          ),
         focused,
+        disabled,
       }),
-      [checked, focused]
+      [checked, focused, disabled]
     )
     // @ts-ignore
     children = typeof children === 'function' ? children(context) : children
@@ -114,6 +118,7 @@ export const Radio = forwardRef<JSX.Element | React.ReactElement, RadioProps>(
         <VisuallyHidden>
           <input
             type="radio"
+            disabled={disabled}
             onChange={e => {
               onChange?.(e)
               setValue(value)
@@ -148,6 +153,7 @@ export const RadioContext: React.Context<RadioContextValue> = React.createContex
   useRadio = () => useContext<RadioContextValue>(RadioContext),
   useChecked = () => useRadio().checked,
   useFocused = () => useRadio().focused,
+  useDisabled = () => useRadio().disabled,
   useControls = () => {
     const {check, uncheck} = useRadio()
     return {check, uncheck}

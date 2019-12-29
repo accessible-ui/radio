@@ -185,6 +185,10 @@ Returns `true` when the `<Radio>` is checked, otherwise `false`
 
 Returns `true` when the `<Radio>` is focused, otherwise `false`
 
+### `useDisabled()`
+
+Returns `true` when the `<Radio>` is disabled, otherwise `false`
+
 ### `useControls()`
 
 This hook provides access to the `<Radio>`'s `check` and `uncheck` functions
