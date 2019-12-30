@@ -34,7 +34,7 @@ describe('<Radio>', () => {
 
   it('should fire onChange events', () => {
     let value
-    const mockOnChange = e => (value = e.target.value)
+    const mockOnChange = checked => (value = checked)
 
     const result = render(
       <RadioGroup name="test">
@@ -43,7 +43,7 @@ describe('<Radio>', () => {
     )
 
     fireEvent.click(result.getByTestId('a'))
-    expect(value).toBe('a')
+    expect(value).toBe(true)
   })
 
   it('should fire onFocus events', () => {

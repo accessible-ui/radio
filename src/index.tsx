@@ -79,7 +79,7 @@ export interface RadioProps {
   defaultChecked?: never
   value: string | number | string[] | undefined
   disabled?: boolean
-  onChange?: (event: React.ChangeEvent) => any
+  onChange?: (checked: boolean) => any
   onFocus?: (event: React.FocusEvent) => any
   onBlur?: (event: React.FocusEvent) => any
   children?:
@@ -97,6 +97,7 @@ export const Radio = forwardRef<JSX.Element | React.ReactElement, RadioProps>(
     const {name, value: checkedValue, setValue} = useRadioGroup()
     const [focused, setFocused] = useState<boolean>(false)
     const checked = value === checkedValue
+    const prevChecked = useRef<boolean>(checked)
     const context = useMemo(
       () => ({
         checked,
@@ -111,6 +112,10 @@ export const Radio = forwardRef<JSX.Element | React.ReactElement, RadioProps>(
       }),
       [checked, focused, disabled]
     )
+    useEffect(() => {
+      prevChecked.current !== checked && onChange?.(checked)
+      prevChecked.current = checked
+    }, [checked])
     // @ts-ignore
     children = typeof children === 'function' ? children(context) : children
     return (
@@ -119,10 +124,7 @@ export const Radio = forwardRef<JSX.Element | React.ReactElement, RadioProps>(
           <input
             type="radio"
             disabled={disabled}
-            onChange={e => {
-              onChange?.(e)
-              setValue(value)
-            }}
+            onChange={() => setValue(value)}
             onFocus={e => {
               onFocus?.(e)
               setFocused(true)

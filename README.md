@@ -118,9 +118,11 @@ deep in the tree.
 
 #### Props
 
-| Prop     | Type                                                                                                           | Default     | Required? | Description               |
-| -------- | -------------------------------------------------------------------------------------------------------------- | ----------- | --------- | ------------------------- |
-| children | <code>React.ReactNode &#124; React.ReactNode[] &#124; ((context: RadioContextValue) => React.ReactNode)</code> | `undefined` | No        | Your custom styled radio. |
+| Prop     | Type                                                                                                           | Default     | Required? | Description                                                  |
+| -------- | -------------------------------------------------------------------------------------------------------------- | ----------- | --------- | ------------------------------------------------------------ |
+| disabled | `boolean`                                                                                                      | `false`     | No        | Disables this radio option                                   |
+| onChange | `(checked: boolean) => any`                                                                                    | `undefined` | No        | Called each time the `checked` state of this option changes. |
+| children | <code>React.ReactNode &#124; React.ReactNode[] &#124; ((context: RadioContextValue) => React.ReactNode)</code> | `undefined` | No        | Your custom styled radio.                                    |
 
 ### `<Mark>`
 
@@ -170,6 +172,8 @@ interface RadioContextValue {
   checked: boolean
   // Is the radio currently focused?
   focused: boolean
+  // Is the radio currently disabled?
+  disabled: boolean
   // Checks the radio
   check: () => void
   // Unchecks the radio
