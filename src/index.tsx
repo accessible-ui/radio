@@ -89,7 +89,7 @@ export interface RadioProps {
   [property: string]: any
 }
 
-export const Radio = forwardRef<JSX.Element | React.ReactElement, RadioProps>(
+export const Radio = forwardRef<HTMLInputElement, RadioProps>(
   (
     {value, disabled = false, onChange, onFocus, onBlur, children, ...props},
     ref: any
