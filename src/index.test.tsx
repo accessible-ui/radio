@@ -34,7 +34,7 @@ describe('<Radio>', () => {
 
   it('should fire onChange events', () => {
     let value
-    const mockOnChange = checked => (value = checked)
+    const mockOnChange = (checked) => (value = checked)
 
     const result = render(
       <RadioGroup name="test">
@@ -73,7 +73,7 @@ describe('<Radio>', () => {
 
     render(
       <Radio value="foo">
-        {context => {
+        {(context) => {
           cxt = context
           return <div />
         }}

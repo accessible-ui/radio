@@ -215,6 +215,7 @@ Object {
 exports[`<Radio> should render as a radio button: type=radio, value=foo, no name 1`] = `
 <DocumentFragment>
   <input
+    name=""
     style="border: 0px; height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; position: absolute;"
     type="radio"
     value="foo"
@@ -267,6 +268,7 @@ exports[`useFocused() should be \`true\` when focused, \`false\` when blurred: f
 <DocumentFragment>
   <input
     data-testid="a"
+    name=""
     style="border: 0px; height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; position: absolute;"
     type="radio"
     value="a"
@@ -279,6 +281,7 @@ exports[`useFocused() should be \`true\` when focused, \`false\` when blurred: f
 <DocumentFragment>
   <input
     data-testid="a"
+    name=""
     style="border: 0px; height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; position: absolute;"
     type="radio"
     value="a"
@@ -291,6 +294,7 @@ exports[`useFocused() should be \`true\` when focused, \`false\` when blurred: t
 <DocumentFragment>
   <input
     data-testid="a"
+    name=""
     style="border: 0px; height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; position: absolute;"
     type="radio"
     value="a"

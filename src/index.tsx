@@ -1,44 +1,15 @@
-import React, {
-  createContext,
-  forwardRef,
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  useMemo,
-} from 'react'
+import * as React from 'react'
 import VisuallyHidden from '@accessible/visually-hidden'
 import clsx from 'clsx'
 
-export interface RadioGroupContextValue {
-  name: string
-  value: string | number | string[] | undefined
-  setValue: (
-    value:
-      | string
-      | number
-      | string[]
-      | undefined
-      | ((
-          current: string | number | string[] | undefined
-        ) => string | number | string[] | undefined)
-  ) => void
-}
-
-// @ts-ignore
-export const RadioGroupContext: React.Context<RadioGroupContextValue> = createContext(
-  {}
-)
+const noop = () => {}
+export const RadioGroupContext = React.createContext<RadioGroupContextValue>({
+  name: '',
+  value: void 0,
+  setValue: noop,
+})
 export const useRadioGroup = () =>
-  useContext<RadioGroupContextValue>(RadioGroupContext)
-
-export interface RadioGroupProps {
-  name: string
-  value?: string | number | string[] | undefined
-  defaultValue?: string | number | string[] | undefined
-  onChange?: (value: string | number | string[] | undefined) => any
-  children: React.ReactNode | React.ReactNode[] | JSX.Element[] | JSX.Element
-}
+  React.useContext<RadioGroupContextValue>(RadioGroupContext)
 
 export const RadioGroup: React.FC<RadioGroupProps> = ({
   name,
@@ -47,20 +18,23 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
   onChange,
   children,
 }) => {
-  const [checkedValue, setValue] = useState<
+  const [checkedValue, setValue] = React.useState<
     string | number | string[] | undefined
   >(value === void 0 ? defaultValue : value)
   const nextValue = value === void 0 ? checkedValue : value
-  const context = useMemo(() => ({name, value: nextValue, setValue}), [
+  const context = React.useMemo(() => ({name, value: nextValue, setValue}), [
     name,
     nextValue,
   ])
-  const prevChecked = useRef(nextValue)
+  const storedOnChange = React.useRef(onChange)
+  storedOnChange.current = onChange
+  const prevChecked = React.useRef(nextValue)
 
-  useEffect(() => {
-    prevChecked.current !== nextValue && onChange?.(nextValue)
-    prevChecked.current = nextValue
-  }, [nextValue])
+  React.useEffect(() => {
+    prevChecked.current !== checkedValue &&
+      storedOnChange.current?.(checkedValue)
+    prevChecked.current = checkedValue
+  }, [checkedValue])
 
   return <RadioGroupContext.Provider value={context} children={children} />
 }
@@ -89,16 +63,17 @@ export interface RadioProps {
   [property: string]: any
 }
 
-export const Radio = forwardRef<HTMLInputElement, RadioProps>(
+export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
   (
     {value, disabled = false, onChange, onFocus, onBlur, children, ...props},
-    ref: any
+    ref
   ) => {
     const {name, value: checkedValue, setValue} = useRadioGroup()
-    const [focused, setFocused] = useState<boolean>(false)
+    const [focused, setFocused] = React.useState<boolean>(false)
     const checked = value === checkedValue
-    const prevChecked = useRef<boolean>(checked)
-    const context = useMemo(
+    const storedOnChange = React.useRef(onChange)
+    storedOnChange.current = onChange
+    const context = React.useMemo(
       () => ({
         checked,
         check: () => !disabled && setValue(value),
@@ -110,12 +85,8 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
         focused,
         disabled,
       }),
-      [checked, focused, disabled]
+      [checked, focused, disabled, setValue, value]
     )
-    useEffect(() => {
-      prevChecked.current !== checked && onChange?.(checked)
-      prevChecked.current = checked
-    }, [checked])
     // @ts-ignore
     children = typeof children === 'function' ? children(context) : children
     return (
@@ -124,12 +95,15 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           <input
             type="radio"
             disabled={disabled}
-            onChange={() => setValue(value)}
-            onFocus={e => {
+            onChange={({target: {checked}}) => {
+              storedOnChange.current?.(checked)
+              setValue(value)
+            }}
+            onFocus={(e) => {
               onFocus?.(e)
               setFocused(true)
             }}
-            onBlur={e => {
+            onBlur={(e) => {
               onBlur?.(e)
               setFocused(false)
             }}
@@ -148,11 +122,14 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
   }
 )
 
-// @ts-ignore
-export const RadioContext: React.Context<RadioContextValue> = React.createContext(
-    {}
-  ),
-  useRadio = () => useContext<RadioContextValue>(RadioContext),
+export const RadioContext = React.createContext<RadioContextValue>({
+    checked: false,
+    check: noop,
+    uncheck: noop,
+    focused: false,
+    disabled: false,
+  }),
+  useRadio = () => React.useContext<RadioContextValue>(RadioContext),
   useChecked = () => useRadio().checked,
   useFocused = () => useRadio().focused,
   useDisabled = () => useRadio().disabled,
@@ -161,21 +138,44 @@ export const RadioContext: React.Context<RadioContextValue> = React.createContex
     return {check, uncheck}
   }
 
-export interface CheckedProps {
-  children: React.ReactNode
-}
-
 // @ts-ignore
 export const Checked: React.FC<CheckedProps> = ({children}) =>
   useChecked() ? children : null
+
+// @ts-ignore
+export const Unchecked: React.FC<UncheckedProps> = ({children}) =>
+  !useChecked() ? children : null
 
 export interface UncheckedProps {
   children: React.ReactNode
 }
 
-// @ts-ignore
-export const Unchecked: React.FC<UncheckedProps> = ({children}) =>
-  !useChecked() ? children : null
+export interface CheckedProps {
+  children: React.ReactNode
+}
+
+export interface RadioGroupContextValue {
+  name: string
+  value: string | number | string[] | undefined
+  setValue: (
+    value:
+      | string
+      | number
+      | string[]
+      | undefined
+      | ((
+          current: string | number | string[] | undefined
+        ) => string | number | string[] | undefined)
+  ) => void
+}
+
+export interface RadioGroupProps {
+  name: string
+  value?: string | number | string[] | undefined
+  defaultValue?: string | number | string[] | undefined
+  onChange?: (value: string | number | string[] | undefined) => any
+  children: React.ReactNode | React.ReactNode[] | JSX.Element[] | JSX.Element
+}
 
 export interface MarkProps {
   checkedClass?: string
