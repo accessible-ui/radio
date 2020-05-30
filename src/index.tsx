@@ -96,16 +96,16 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
             type="radio"
             disabled={disabled}
             onChange={({target: {checked}}) => {
-              storedOnChange.current?.(checked)
-              setValue(value)
+              if (checked) setValue(value)
+              onChange?.(checked)
             }}
             onFocus={(e) => {
-              onFocus?.(e)
               setFocused(true)
+              onFocus?.(e)
             }}
             onBlur={(e) => {
-              onBlur?.(e)
               setFocused(false)
+              onBlur?.(e)
             }}
             ref={ref}
             {...props}
