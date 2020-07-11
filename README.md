@@ -41,14 +41,14 @@ focus and update a radio input with the keyboard.
 import {RadioGroup, Radio, Mark} from '@accessible/radio'
 
 const MyRadio = () => (
-  <RadioGroup name="favorite_food" defaultValue="pizza">
+  <RadioGroup name='favorite_food' defaultValue='pizza'>
     <h2>What is your favorite food?</h2>
 
     <label>
-      <Radio value="pizza">
-        <span className="my-radio">
-          <Mark checkedClass="checked" uncheckedClass="unchecked">
-            <span className="mark" />
+      <Radio value='pizza'>
+        <span className='my-radio'>
+          <Mark checkedClass='checked' uncheckedClass='unchecked'>
+            <span className='mark' />
           </Mark>
         </span>
       </Radio>
@@ -56,10 +56,10 @@ const MyRadio = () => (
     </label>
 
     <label>
-      <Radio value="tacos">
-        <span className="my-radio">
-          <Mark checkedClass="checked" uncheckedClass="unchecked">
-            <span className="mark" />
+      <Radio value='tacos'>
+        <span className='my-radio'>
+          <Mark checkedClass='checked' uncheckedClass='unchecked'>
+            <span className='mark' />
           </Mark>
         </span>
       </Radio>
@@ -71,26 +71,26 @@ const MyRadio = () => (
 
 ## API
 
-### `<RadioGroup>`
+### &lt;RadioGroup&gt;
 
 Creates context that controls the child [`<Radio>`](#radio) components. This is also where you set
 controlled values and default values for the radio group.
 
 #### Props
 
-| Prop         | Type                                                                                             | Default     | Required? | Description                                                                                                                                                                                                                      |
-| ------------ | ------------------------------------------------------------------------------------------------ | ----------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name         | `string`                                                                                         | `undefined` | Yes       | The name of the checkbox group (applied to each child [`<Radio>`](#radio) input)                                                                                                                                                 |
-| value        | <code>value: string &#0124; number &#0124; string[] &#0124; undefined</code>                     | `undefined` | No        | Makes the radio group a controlled component which can no longer be updated with the `setValue` control or any [`<Radio>`](#radio) controls. It should be the same as one of the values in the child [`<Radio>`](#radio) inputs. |
-| defaultValue | <code>value: string &#0124; number &#0124; string[] &#0124; undefined</code>                     | `undefined` | No        | This sets the default radio group value. It should be the same as one of the values in the child [`<Radio>`](#radio) inputs.                                                                                                     |
-| onChange     | <code>(value: string &#0124; number &#0124; string[] &#0124; undefined) => any</code>            | `undefined` | No        | This callback fires each time the checked value changes                                                                                                                                                                          |
-| children     | <code>React.ReactNode &#0124; React.ReactNode[] &#0124; JSX.Element[] &#0124; JSX.Element</code> |
+| Prop         | Type                                                                                  | Default     | Required? | Description                                                                                                                                                                                                                      |
+| ------------ | ------------------------------------------------------------------------------------- | ----------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name         | `string`                                                                              | `undefined` | Yes       | The name of the checkbox group (applied to each child [`<Radio>`](#radio) input)                                                                                                                                                 |
+| value        | <code>value: string &#0124; number &#0124; string[] &#0124; undefined</code>          | `undefined` | No        | Makes the radio group a controlled component which can no longer be updated with the `setValue` control or any [`<Radio>`](#radio) controls. It should be the same as one of the values in the child [`<Radio>`](#radio) inputs. |
+| defaultValue | <code>value: string &#0124; number &#0124; string[] &#0124; undefined</code>          | `undefined` | No        | This sets the default radio group value. It should be the same as one of the values in the child [`<Radio>`](#radio) inputs.                                                                                                     |
+| onChange     | <code>(value: string &#0124; number &#0124; string[] &#0124; undefined) => any</code> | `undefined` | No        | This callback fires each time the checked value changes                                                                                                                                                                          |
+| children     | `React.ReactNode`                                                                     | `undefined` | No        | Any React nodes, including your [`Radio`](#radio) inputs                                                                                                                                                                         |
 
-### `useRadioGroup()`
+### useRadioGroup()
 
 A React hook that returns the [`RadioGroupContextValue`](#radiogroupcontextvalue) for the nearest `<RadioGroup>` parent.
 
-### `RadioGroupContextValue`
+### RadioGroupContextValue
 
 ```typescript
 interface RadioGroupContextValue {
@@ -109,7 +109,7 @@ interface RadioGroupContextValue {
 }
 ```
 
-### `<Radio>`
+### &lt;Radio&gt;
 
 Creates a visually hidden radio input that is focusable and accessible via keyboard navigation.
 All props passed to this component are applied to the `<input>`. This also creates a context
@@ -118,27 +118,27 @@ deep in the tree.
 
 #### Props
 
-| Prop     | Type                                                                                                           | Default     | Required? | Description                                                  |
-| -------- | -------------------------------------------------------------------------------------------------------------- | ----------- | --------- | ------------------------------------------------------------ |
-| disabled | `boolean`                                                                                                      | `false`     | No        | Disables this radio option                                   |
-| onChange | `(checked: boolean) => any`                                                                                    | `undefined` | No        | Called each time the `checked` state of this option changes. |
-| children | <code>React.ReactNode &#124; React.ReactNode[] &#124; ((context: RadioContextValue) => React.ReactNode)</code> | `undefined` | No        | Your custom styled radio.                                    |
+| Prop     | Type                        | Default     | Required? | Description                                                  |
+| -------- | --------------------------- | ----------- | --------- | ------------------------------------------------------------ |
+| disabled | `boolean`                   | `false`     | No        | Disables this radio option                                   |
+| onChange | `(checked: boolean) => any` | `undefined` | No        | Called each time the `checked` state of this option changes. |
+| children | `React.ReactNode`           | `undefined` | No        | Your custom styled radio.                                    |
 
-### `<Mark>`
+### &lt;Mark&gt;
 
 A convenient component for conditionally adding class names and styles when the `<Radio>` component is checked/unchecked. It must be a child of a `<Radio>`.
 
 #### Props
 
-| Prop           | Type                  | Default            | Required? | Description                                                                         |
-| -------------- | --------------------- | ------------------ | --------- | ----------------------------------------------------------------------------------- |
-| uncheckedClass | `string`              | `undefined`        | No        | This class name will be applied to the child element when the radio is `unchecked`. |
-| checkedClass   | `string`              | `"radio--checked"` | No        | This class name will be applied to the child element when the radio is `checked`.   |
-| uncheckedStyle | `React.CSSProperties` | `undefined`        | No        | These styles will be applied to the child element when the radio is `unchecked`.    |
-| checkedStyle   | `React.CSSProperties` | `undefined`        | No        | These styles name will be applied to the child element when the radio is `checked`. |
-| children       | `React.ReactNode`     | `undefined`        | Yes       | The child you wish to render when the radio is checked.                             |
+| Prop           | Type                  | Default     | Required? | Description                                                                         |
+| -------------- | --------------------- | ----------- | --------- | ----------------------------------------------------------------------------------- |
+| uncheckedClass | `string`              | `undefined` | No        | This class name will be applied to the child element when the radio is `unchecked`. |
+| checkedClass   | `string`              | `undefined` | No        | This class name will be applied to the child element when the radio is `checked`.   |
+| uncheckedStyle | `React.CSSProperties` | `undefined` | No        | These styles will be applied to the child element when the radio is `unchecked`.    |
+| checkedStyle   | `React.CSSProperties` | `undefined` | No        | These styles name will be applied to the child element when the radio is `checked`. |
+| children       | `React.ReactNode`     | `undefined` | Yes       | The child you wish to render when the radio is checked.                             |
 
-### `<Checked>`
+### &lt;Checked&gt;
 
 The child of this component will only render when the `<Radio>` is in
 a `checked` state. It must be a child of a `<Radio>`.
@@ -149,7 +149,7 @@ a `checked` state. It must be a child of a `<Radio>`.
 | -------- | ----------------- | ----------- | --------- | ------------------------------------------------------- |
 | children | `React.ReactNode` | `undefined` | Yes       | The child you wish to render when the radio is checked. |
 
-### `<Unchecked>`
+### &lt;Unchecked&gt;
 
 The child of this component will only render when the `<Radio>` is in
 an `unchecked` state. It must be a child of a `<Radio>`.
@@ -160,11 +160,11 @@ an `unchecked` state. It must be a child of a `<Radio>`.
 | -------- | ----------------- | ----------- | --------- | --------------------------------------------------------- |
 | children | `React.ReactNode` | `undefined` | Yes       | The child you wish to render when the radio is unchecked. |
 
-### `useRadio()`
+### useRadio()
 
 A React hook that returns the [`RadioContextValue`](#radiocontextvalue) for the nearest `<Radio>` parent.
 
-### `RadioContextValue`
+### RadioContextValue
 
 ```typescript
 interface RadioContextValue {
@@ -178,31 +178,6 @@ interface RadioContextValue {
   check: () => void
   // Unchecks the radio
   uncheck: () => void
-}
-```
-
-### `useChecked()`
-
-Returns `true` when the `<Radio>` is checked, otherwise `false`
-
-### `useFocused()`
-
-Returns `true` when the `<Radio>` is focused, otherwise `false`
-
-### `useDisabled()`
-
-Returns `true` when the `<Radio>` is disabled, otherwise `false`
-
-### `useControls()`
-
-This hook provides access to the `<Radio>`'s `check` and `uncheck` functions
-
-#### Example
-
-```jsx harmony
-const Component = () => {
-  const {check} = useControls()
-  return <button onClick={check}>Check me</button>
 }
 ```
 

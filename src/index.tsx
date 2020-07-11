@@ -1,9 +1,9 @@
 import * as React from 'react'
-import VisuallyHidden from '@accessible/visually-hidden'
+import {VisuallyHidden} from '@accessible/visually-hidden'
+import useChange from '@react-hook/change'
 import clsx from 'clsx'
 
-const noop = () => {}
-export const RadioGroupContext = React.createContext<RadioGroupContextValue>({
+const RadioGroupContext = React.createContext<RadioGroupContextValue>({
   name: '',
   value: void 0,
   setValue: noop,
@@ -11,89 +11,65 @@ export const RadioGroupContext = React.createContext<RadioGroupContextValue>({
 export const useRadioGroup = () =>
   React.useContext<RadioGroupContextValue>(RadioGroupContext)
 
-export const RadioGroup: React.FC<RadioGroupProps> = ({
+export function RadioGroup({
   name,
   value,
   defaultValue,
-  onChange,
+  onChange = noop,
   children,
-}) => {
+}: RadioGroupProps) {
   const [checkedValue, setValue] = React.useState<
     string | number | string[] | undefined
-  >(value === void 0 ? defaultValue : value)
-  const nextValue = value === void 0 ? checkedValue : value
+  >(value ?? defaultValue)
+  const nextValue = value ?? checkedValue
   const context = React.useMemo(() => ({name, value: nextValue, setValue}), [
     name,
     nextValue,
   ])
-  const storedOnChange = React.useRef(onChange)
-  storedOnChange.current = onChange
-  const prevChecked = React.useRef(nextValue)
+  useChange(checkedValue, onChange)
 
-  React.useEffect(() => {
-    prevChecked.current !== checkedValue &&
-      storedOnChange.current?.(checkedValue)
-    prevChecked.current = checkedValue
-  }, [checkedValue])
-
-  return <RadioGroupContext.Provider value={context} children={children} />
-}
-
-export interface RadioContextValue {
-  checked: boolean
-  check: () => void
-  uncheck: () => void
-  focused: boolean
-  disabled: boolean
-}
-
-export interface RadioProps {
-  name?: never
-  checked?: never
-  defaultChecked?: never
-  value: string | number | string[] | undefined
-  disabled?: boolean
-  onChange?: (checked: boolean) => any
-  onFocus?: (event: React.FocusEvent) => any
-  onBlur?: (event: React.FocusEvent) => any
-  children?:
-    | React.ReactNode
-    | React.ReactNode[]
-    | ((context: RadioContextValue) => React.ReactNode)
-  [property: string]: any
+  return (
+    <RadioGroupContext.Provider value={context}>
+      {children}
+    </RadioGroupContext.Provider>
+  )
 }
 
 export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
   (
-    {value, disabled = false, onChange, onFocus, onBlur, children, ...props},
+    {
+      value,
+      disabled = false,
+      onChange = noop,
+      onFocus,
+      onBlur,
+      children,
+      ...props
+    },
     ref
   ) => {
     const {name, value: checkedValue, setValue} = useRadioGroup()
     const [focused, setFocused] = React.useState<boolean>(false)
     const checked = value === checkedValue
-    const storedOnChange = React.useRef(onChange)
-    storedOnChange.current = onChange
     const context = React.useMemo(
       () => ({
         checked,
         check: () => !disabled && setValue(value),
         uncheck: () =>
           !disabled &&
-          setValue((current: string | number | string[] | undefined) =>
-            current === value ? void 0 : current
-          ),
+          setValue((current) => (current === value ? void 0 : current)),
         focused,
         disabled,
       }),
       [checked, focused, disabled, setValue, value]
     )
-    // @ts-ignore
-    children = typeof children === 'function' ? children(context) : children
+    useChange(checked, onChange)
+
     return (
       <RadioContext.Provider value={context}>
         <VisuallyHidden>
           <input
-            type="radio"
+            type='radio'
             disabled={disabled}
             onChange={({target: {checked}}) => {
               if (checked) setValue(value)
@@ -122,29 +98,68 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
   }
 )
 
-export const RadioContext = React.createContext<RadioContextValue>({
-    checked: false,
-    check: noop,
-    uncheck: noop,
-    focused: false,
-    disabled: false,
-  }),
-  useRadio = () => React.useContext<RadioContextValue>(RadioContext),
-  useChecked = () => useRadio().checked,
-  useFocused = () => useRadio().focused,
-  useDisabled = () => useRadio().disabled,
-  useControls = () => {
-    const {check, uncheck} = useRadio()
-    return {check, uncheck}
-  }
+const RadioContext = React.createContext<RadioContextValue>({
+  checked: false,
+  check: noop,
+  uncheck: noop,
+  focused: false,
+  disabled: false,
+})
 
-// @ts-ignore
-export const Checked: React.FC<CheckedProps> = ({children}) =>
-  useChecked() ? children : null
+export const useRadio = () => React.useContext<RadioContextValue>(RadioContext)
 
-// @ts-ignore
-export const Unchecked: React.FC<UncheckedProps> = ({children}) =>
-  !useChecked() ? children : null
+export function Checked({children}: CheckedProps) {
+  return useRadio().checked ? <React.Fragment>{children}</React.Fragment> : null
+}
+
+export function Unchecked({children}: UncheckedProps) {
+  return !useRadio().checked ? (
+    <React.Fragment>{children}</React.Fragment>
+  ) : null
+}
+
+export function Mark({
+  children,
+  checkedClass,
+  uncheckedClass,
+  checkedStyle,
+  uncheckedStyle,
+}: MarkProps) {
+  const checked = useRadio().checked
+  return React.cloneElement(children, {
+    className:
+      clsx(children.props.className, checked ? checkedClass : uncheckedClass) ||
+      void 0,
+    style: Object.assign(
+      {},
+      children.props.style,
+      checked ? checkedStyle : uncheckedStyle
+    ),
+  })
+}
+
+function noop() {}
+
+export interface RadioContextValue {
+  checked: boolean
+  check: () => void
+  uncheck: () => void
+  focused: boolean
+  disabled: boolean
+}
+
+export interface RadioProps
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    'onChange' | 'name' | 'checked' | 'defaultChecked'
+  > {
+  value: string | number | string[] | undefined
+  disabled?: boolean
+  onChange?: (checked: boolean) => any
+  onFocus?: (event: React.FocusEvent) => any
+  onBlur?: (event: React.FocusEvent) => any
+  children?: React.ReactNode
+}
 
 export interface UncheckedProps {
   children: React.ReactNode
@@ -174,7 +189,7 @@ export interface RadioGroupProps {
   value?: string | number | string[] | undefined
   defaultValue?: string | number | string[] | undefined
   onChange?: (value: string | number | string[] | undefined) => any
-  children: React.ReactNode | React.ReactNode[] | JSX.Element[] | JSX.Element
+  children: React.ReactNode
 }
 
 export interface MarkProps {
@@ -183,26 +198,6 @@ export interface MarkProps {
   checkedStyle?: React.CSSProperties
   uncheckedStyle?: React.CSSProperties
   children: JSX.Element | React.ReactElement
-}
-
-export const Mark: React.FC<MarkProps> = ({
-  children,
-  checkedClass = 'radio--checked',
-  uncheckedClass,
-  checkedStyle,
-  uncheckedStyle,
-}) => {
-  const checked = useChecked()
-  return React.cloneElement(children, {
-    className:
-      clsx(children.props.className, checked ? checkedClass : uncheckedClass) ||
-      void 0,
-    style: Object.assign(
-      {},
-      children.props.style,
-      checked ? checkedStyle : uncheckedStyle
-    ),
-  })
 }
 
 /* istanbul ignore next */
