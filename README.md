@@ -35,7 +35,7 @@ focus and update a radio input with the keyboard.
 
 ## Quick Start
 
-[Check out the example on CodeSandbox](https://codesandbox.io/s/accessibleradio-examples-olksf)
+[Check out the example on **CodeSandbox**](https://codesandbox.io/s/accessibleradio-examples-olksf)
 
 ```jsx harmony
 import {RadioGroup, Radio, Mark} from '@accessible/radio'
